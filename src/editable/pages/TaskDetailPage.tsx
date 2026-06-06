@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { CSSProperties } from 'react'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Mail, MapPin, MessageCircle, Phone, Tag, UserRound } from 'lucide-react'
+import { ArrowLeft, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Heart, Mail, MapPin, MessageCircle, Phone, Share2, Star, Tag, UserRound, type LucideIcon } from 'lucide-react'
 import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { buildPostUrl, fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -160,26 +160,67 @@ function ListingDetail({ post, related }: { post: SitePost; related: SitePost[] 
   return (
     <section className="mx-auto max-w-[var(--editable-container)] px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <BackLink task="listing" />
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-        <article className="rounded-[2.8rem] border border-[var(--editable-border)] bg-white p-6 shadow-[0_30px_90px_rgba(15,23,42,0.09)] sm:p-9">
-          <div className="grid gap-6 sm:grid-cols-[150px_1fr]">
-            <div className="flex h-36 w-36 items-center justify-center overflow-hidden rounded-[2rem] bg-[var(--detail-bg)] ring-1 ring-[var(--editable-border)]">
-              {logo ? <img src={logo} alt="" className="h-full w-full object-cover" /> : <Building2 className="h-14 w-14 opacity-40" />}
-            </div>
+      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_374px]">
+        <article className="min-w-0">
+          <GalleryHero images={images} title={post.title} />
+          <div className="mt-7 flex flex-wrap items-start justify-between gap-4 border-b border-[var(--editable-border)] pb-6">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.28em] text-[var(--detail-accent)]">Business listing</p>
-              <h1 className="mt-3 text-4xl font-black leading-[0.98] tracking-[-0.07em] sm:text-6xl">{post.title}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-8 opacity-70">{summaryText(post)}</p>
+              <p className="text-sm font-black text-[#f62eb8]">Top choice for business services</p>
+              <h1 className="mt-2 text-4xl font-black leading-tight tracking-normal sm:text-5xl">{post.title}</h1>
+              <div className="mt-3 flex flex-wrap items-center gap-3 text-sm font-bold">
+                <span className="inline-flex items-center gap-1"><Star className="h-4 w-4 fill-[#ffbd36] text-[#ffbd36]" /> 4.9</span>
+                <span className="underline underline-offset-4">Verified listing</span>
+                {address ? <span className="inline-flex items-center gap-1 text-black/62"><MapPin className="h-4 w-4" /> {address}</span> : null}
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <a href={website || '#about'} aria-label="Share listing" className="grid h-11 w-11 place-items-center rounded-full border border-black/18 bg-white"><Share2 className="h-5 w-5" /></a>
+              <a href="#contact-business" aria-label="Save listing" className="grid h-11 w-11 place-items-center rounded-full border border-black/18 bg-white"><Heart className="h-5 w-5" /></a>
             </div>
           </div>
-          <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
-          <BodyContent post={post} />
-          <ImageStrip images={images.slice(1)} label="Business showcase" />
+
+          <nav className="sticky top-[82px] z-20 mt-1 flex gap-6 overflow-x-auto border-b border-[var(--editable-border)] bg-[var(--detail-bg)] py-3 text-sm font-black">
+            {['About', 'Details', 'Location', 'Related'].map((item) => <a key={item} href={`#${item.toLowerCase()}`} className="whitespace-nowrap hover:text-[#f62eb8]">{item}</a>)}
+          </nav>
+
+          <section id="about" className="scroll-mt-32 border-b border-[var(--editable-border)] py-8">
+            <h2 className="text-2xl font-black tracking-normal">About this business</h2>
+            <BodyContent post={post} compact />
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {[
+                ['Service area', address || 'Available on request', MapPin],
+                ['Direct contact', phone || email || 'Use the quote form', Phone],
+                ['Online profile', website ? 'Website available' : 'Contact for links', Globe2],
+                ['Response time', 'Typically responds within 24h', MessageCircle],
+              ].map(([label, value, Icon]) => (
+                <div key={label as string} className="rounded-lg border border-[var(--editable-border)] bg-white p-4">
+                  <Icon className="h-5 w-5" />
+                  <p className="mt-3 text-sm font-black">{label as string}</p>
+                  <p className="mt-1 text-sm leading-6 text-black/62">{value as string}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="details" className="scroll-mt-32 border-b border-[var(--editable-border)] py-8">
+            <h2 className="text-2xl font-black tracking-normal">Details</h2>
+            <InfoGrid items={[['Location', address, MapPin], ['Phone', phone, Phone], ['Email', email, Mail], ['Website', website, Globe2]]} />
+            <ImageStrip images={images.slice(1)} label="Business showcase" />
+          </section>
+
+          <section id="location" className="scroll-mt-32 border-b border-[var(--editable-border)] py-8">
+            <h2 className="text-2xl font-black tracking-normal">Service area and contact info</h2>
+            {mapSrc ? <div className="mt-5"><MapBox src={mapSrc} label={address || post.title} /></div> : <p className="mt-4 text-base leading-8 text-black/65">Location details are available through the business contact options.</p>}
+            <ContactAction website={website} phone={phone} email={email} />
+          </section>
+
+          <section id="related" className="scroll-mt-32 py-8">
+            <RelatedPanel task="listing" post={post} related={related} compact />
+          </section>
         </article>
-        <aside className="space-y-5">
-          {mapSrc ? <MapBox src={mapSrc} label={address || post.title} /> : <ContactAction website={website} phone={phone} email={email} />}
-          {mapSrc ? <ContactAction website={website} phone={phone} email={email} /> : null}
-          <RelatedPanel task="listing" post={post} related={related} compact />
+
+        <aside id="contact-business" className="lg:sticky lg:top-28 lg:self-start">
+          <BusinessInquiryPanel title={post.title} email={email} phone={phone} website={website} />
         </aside>
       </div>
     </section>
@@ -321,13 +362,69 @@ function BodyContent({ post, compact = false }: { post: SitePost; compact?: bool
   return <div className={`article-content mt-8 max-w-none ${compact ? 'text-base leading-8' : 'text-lg leading-9'} opacity-80`} dangerouslySetInnerHTML={{ __html: formatPlainText(getBody(post)) }} />
 }
 
-function InfoGrid({ items }: { items: Array<[string, string, typeof MapPin]> }) {
+function GalleryHero({ images, title }: { images: string[]; title: string }) {
+  const gallery = images.length ? images : ['/placeholder.svg?height=900&width=1200']
+  return (
+    <div className="grid gap-2 overflow-hidden rounded-lg md:grid-cols-[1.1fr_0.9fr]">
+      <div className="relative min-h-[360px] overflow-hidden bg-[#eaded5]">
+        <img src={gallery[0]} alt={title} className="h-full min-h-[360px] w-full object-cover" />
+        <span className="absolute bottom-4 left-4 rounded-full bg-black/75 px-4 py-2 text-sm font-black text-white">{Math.max(gallery.length, 1)} photos</span>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        {(gallery.length > 1 ? gallery.slice(1, 5) : gallery).slice(0, 4).map((image, index) => (
+          <img key={`${image}-${index}`} src={image} alt="" className="h-full min-h-[176px] w-full object-cover" />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function BusinessInquiryPanel({ title, email, phone, website }: { title: string; email?: string; phone?: string; website?: string }) {
+  const action = email ? `mailto:${email}` : '/contact'
+  return (
+    <div className="rounded-lg border border-[var(--editable-border)] bg-white p-6 shadow-sm">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h2 className="text-2xl font-black tracking-normal">Start the conversation</h2>
+          <p className="mt-2 text-sm leading-6 text-black/68">Use this secure form to ask about services, availability, pricing, or next steps.</p>
+        </div>
+        <span className="text-xs text-black/50">*Required</span>
+      </div>
+      <form action={action} method="post" encType="text/plain" className="mt-5 grid gap-3">
+        <input type="hidden" name="business" value={title} />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+          <input name="firstName" required placeholder="First name*" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black" />
+          <input name="lastName" required placeholder="Last name*" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black" />
+        </div>
+        <input name="email" required type="email" placeholder="Email*" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black" />
+        <input name="service" placeholder="Service needed*" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black" />
+        <select name="timeline" defaultValue="" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black">
+          <option value="" disabled>Timeline*</option>
+          <option>As soon as possible</option>
+          <option>This month</option>
+          <option>Next 3 months</option>
+          <option>Just researching</option>
+        </select>
+        <input name="phone" placeholder="Phone number" className="h-12 rounded-none border border-black/18 bg-white px-3 text-sm font-semibold outline-none focus:border-black" />
+        <textarea name="message" rows={5} placeholder="Introduce yourself and share what you need..." className="rounded-none border border-black/18 bg-white px-3 py-3 text-sm font-semibold outline-none focus:border-black" />
+        <button type="submit" className="mt-2 h-12 rounded-full bg-[#f62eb8] text-sm font-black text-white">Request quote</button>
+      </form>
+      <div className="mt-4 flex flex-wrap gap-3 text-sm font-bold">
+        {phone ? <a href={`tel:${phone}`} className="underline underline-offset-4">Call business</a> : null}
+        {website ? <Link href={website} target="_blank" rel="noreferrer" className="underline underline-offset-4">Visit website</Link> : null}
+      </div>
+      <p className="mt-4 text-center text-sm font-bold">Typically responds within 24h</p>
+    </div>
+  )
+}
+
+function InfoGrid({ items }: { items: Array<[string, string, LucideIcon]> }) {
   const visible = items.filter(([, value]) => value)
   if (!visible.length) return null
   return (
     <div className="mt-8 grid gap-3 sm:grid-cols-2">
       {visible.map(([label, value, Icon]) => (
-        <div key={label} className="rounded-[1.5rem] border border-[var(--editable-border)] bg-[var(--detail-bg)] p-4">
+        <div key={label} className="rounded-lg border border-[var(--editable-border)] bg-[var(--detail-bg)] p-4">
           <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] opacity-55"><Icon className="h-4 w-4" /> {label}</div>
           <p className="mt-2 break-words text-sm font-bold leading-6 opacity-80">{value}</p>
         </div>
@@ -385,7 +482,6 @@ function RelatedPanel({ task, post, related, compact = false }: { task: TaskKey;
           <div className="mt-4 grid gap-3 text-sm font-bold opacity-75">
             <p className="inline-flex items-center gap-2"><Tag className="h-4 w-4" /> Task: {taskConfig?.label || task}</p>
             <p className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> Site: {SITE_CONFIG.name}</p>
-            {post.publishedAt ? <p>Published: {new Date(post.publishedAt).toLocaleDateString()}</p> : null}
           </div>
         </div>
       ) : null}
