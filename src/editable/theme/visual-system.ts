@@ -68,17 +68,17 @@ export const visualPresets = {
   },
   'tech-directory': {
     label: 'Tech Directory',
-    mood: 'clean, fast, useful',
-    fontDirection: 'modern sans with crisp mono data accents',
+    mood: 'friendly business marketplace with confident directory utility',
+    fontDirection: 'bold sans headlines with readable business detail copy',
     colors: {
-      background: '#f6f9fc',
-      foreground: '#101827',
-      muted: '#5f6b7a',
-      primary: '#0f172a',
-      accent: '#00a6ff',
+      background: '#fff7f0',
+      foreground: '#050505',
+      muted: '#625a54',
+      primary: '#050505',
+      accent: '#f62eb8',
       surface: '#ffffff',
     },
-    shape: 'clean grids, pill filters, sharp information hierarchy',
+    shape: 'compact cards, image-led rows, pill actions, and marketplace rhythm',
   },
   'retro-bulletin': {
     label: 'Retro Bulletin',
@@ -121,10 +121,10 @@ export const visualSystem = {
           ? 'tech-directory'
           : 'organic-journal',
   radius: {
-    sm: '0.75rem',
-    md: '1.25rem',
-    lg: '2rem',
-    xl: '2.75rem',
+    sm: '0.5rem',
+    md: '0.75rem',
+    lg: '1rem',
+    xl: '1.25rem',
   },
   motion: {
     pageLoad: 'animate-in fade-in slide-in-from-bottom-4 duration-700',
@@ -134,8 +134,8 @@ export const visualSystem = {
   },
   typography: {
     eyebrow: 'text-xs font-semibold uppercase tracking-[0.24em]',
-    heroTitle: 'text-5xl font-semibold tracking-[-0.06em] sm:text-6xl lg:text-7xl',
-    sectionTitle: 'text-3xl font-semibold tracking-[-0.04em] sm:text-4xl',
+    heroTitle: 'text-5xl font-black tracking-normal sm:text-6xl lg:text-7xl',
+    sectionTitle: 'text-3xl font-black tracking-normal sm:text-4xl',
     body: 'text-base leading-8',
     caption: 'text-xs font-medium uppercase tracking-[0.18em]',
   },
