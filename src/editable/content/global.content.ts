@@ -8,29 +8,30 @@ export const globalContent = {
     baseUrl: slot4BrandConfig.baseUrl,
   },
   nav: {
-    tagline: 'Independent reading platform',
+    tagline: '',
     primaryLinks: [
-      { label: 'Articles', href: '/articles' },
-      { label: 'Visuals', href: '/image-sharing' },
-      { label: 'Listings', href: '/listings' },
+      { label: 'Businesses', href: '/listing' },
+      { label: 'Search', href: '/search' },
+      { label: 'Create listing', href: '/create' },
+      { label: 'About', href: '/about' },
       { label: 'Contact', href: '/contact' },
     ],
     actions: {
-      primary: { label: 'Start exploring', href: '/' },
-      secondary: { label: 'Submit', href: '/contact' },
+      primary: { label: 'Find businesses', href: '/listing' },
+      secondary: { label: 'Add your business', href: '/create' },
     },
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
-    description: 'A connected publishing surface for articles, visuals, listings, profiles, bookmarks, and downloadable resources.',
+    tagline: 'Local discovery, made simple',
+    description: 'A business listing marketplace for finding trusted services, comparing details, and reaching local providers with confidence.',
     columns: [
       {
-        title: 'Explore',
+        title: 'Marketplace',
         links: [
-          { label: 'Articles', href: '/articles' },
-          { label: 'Listings', href: '/listings' },
-          { label: 'Images', href: '/image-sharing' },
-          { label: 'PDF Library', href: '/pdf' },
+          { label: 'Browse businesses', href: '/listing' },
+          { label: 'Search directory', href: '/search' },
+          { label: 'Add a listing', href: '/create' },
+          { label: 'Contact support', href: '/contact' },
         ],
       },
       {
@@ -41,7 +42,7 @@ export const globalContent = {
         ],
       },
     ],
-    bottomNote: 'Built for clean discovery and connected publishing.',
+    bottomNote: 'Built for useful business discovery and direct provider connections.',
   },
   commonLabels: {
     readMore: 'Read more',
@@ -49,6 +50,6 @@ export const globalContent = {
     explore: 'Explore',
     latest: 'Latest',
     related: 'Related',
-    published: 'Published',
+    published: 'Updated',
   },
 } as const
