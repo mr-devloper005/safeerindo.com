@@ -32,9 +32,7 @@ export function EditableNavbar() {
     <header style={navVars} className="sticky top-0 z-50 border-b border-[var(--editable-border)] bg-[var(--editable-nav-bg)]/92 text-[var(--editable-nav-text)] backdrop-blur-2xl">
       <nav className="mx-auto flex min-h-[82px] w-full max-w-[var(--editable-container)] items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-[var(--editable-border)] bg-white shadow-sm transition-transform group-hover:-rotate-2">
-            <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-11 w-11 object-contain" />
-          </span>
+          <img src="/favicon.png?v=20260413" alt={SITE_CONFIG.name} className="h-12 w-12 rounded-lg object-contain transition-transform group-hover:-rotate-2" />
           <span className="hidden min-w-0 sm:block">
             <span className="block max-w-[210px] truncate text-base font-black tracking-normal">{SITE_CONFIG.name}</span>
             <span className="block max-w-[210px] truncate text-[11px] font-bold uppercase tracking-[0.16em] opacity-55">{globalContent.nav?.tagline || SITE_CONFIG.tagline}</span>

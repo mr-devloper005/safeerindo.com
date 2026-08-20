@@ -81,7 +81,7 @@ function Rail({ children }: { children: React.ReactNode }) {
   return <div className="flex snap-x gap-5 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">{children}</div>
 }
 
-export function EditableHomeHero({ primaryTask, primaryRoute }: HomeSectionProps) {
+export function EditableHomeHero({ primaryRoute }: HomeSectionProps) {
   const listingRoute = SITE_CONFIG.tasks.find((task) => task.key === 'listing' && task.enabled)?.route || primaryRoute
 
   return (
@@ -146,7 +146,7 @@ export function EditableStoryRail({ primaryTask, primaryRoute, posts }: HomeSect
   )
 }
 
-export function EditableMagazineSplit({ primaryTask, primaryRoute, posts }: HomeSectionProps) {
+export function EditableMagazineSplit({ posts }: HomeSectionProps) {
   const images = posts.slice(0, 4).map((post) => getEditablePostImage(post))
   return (
     <section className="bg-[#fff7f0]">
